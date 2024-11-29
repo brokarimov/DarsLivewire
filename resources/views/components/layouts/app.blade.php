@@ -20,7 +20,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/" wire:navigate> Bosh sahifa</a>
+                    <a class="nav-link" href="/" wire:navigate>Category</a>
+                    
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/post" wire:navigate>Post</a>
+                    
                 </li>
 
             </ul>
