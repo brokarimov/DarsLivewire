@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->string('description');
+            $table->text('description');
             $table->text('text');
+            $table->integer('likes')->default(0);
+            $table->integer('dislikes')->default(0);
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }

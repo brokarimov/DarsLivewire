@@ -28,7 +28,7 @@ class CategoryComponent extends Component
 
         return view('livewire.category-component', [
             'models' => $query->orderBy('id', 'desc')->paginate(10), 
-        ]);
+        ])->layout('components.layouts.append');
     }
 
     public function updatingSearchName()
