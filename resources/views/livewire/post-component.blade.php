@@ -20,13 +20,22 @@
                 <div class="col-4">
                     <form wire:submit.prevent="save">
                         <label for="">Title</label>
-                        <input type="text" wire:model="title" placeholder="Title" class="form-control mt-2">
+                        <input type="text" wire:model.blur="title" placeholder="Title" class="form-control mt-2">
+                        @error('title')
+                            <span class="text-danger">{{$message}}</span><br>
+                        @enderror
                         <label for="">Description</label>
-                        <input type="text" wire:model="description" placeholder="Description" class="form-control mt-2">
+                        <input type="text" wire:model.blur="description" placeholder="Description" class="form-control mt-2">
+                        @error('description')
+                            <span class="text-danger">{{$message}}</span><br>
+                        @enderror
                         <label for="">Text</label>
-                        <input type="text" wire:model="text" placeholder="Text" class="form-control mt-2">
+                        <input type="text" wire:model.blur="text" placeholder="Text" class="form-control mt-2">
+                        @error('text')
+                            <span class="text-danger">{{$message}}</span><br>
+                        @enderror
                         <label for="">Category</label>
-                        <select wire:model="category_id" class="form-control mt-2">
+                        <select wire:model.onchange="category_id" class="form-control mt-2">
                             <option value="">Choose Category</option>
 
                             @foreach ($categories as $category)
@@ -35,6 +44,14 @@
                                 @endif
                             @endforeach
                         </select>
+                        @error('category_id')
+                            <span class="text-danger">{{$message}}</span><br>
+                        @enderror
+                        <label for="">Photo</label>
+                        <input type="file" wire:model.blur="photo" class="form-control">
+                        @error('photo')
+                            <span class="text-danger">{{$message}}</span><br>
+                        @enderror
                         <button type="submit" class="btn btn-primary mt-2">Create</button>
                     </form>
                 </div>
@@ -49,6 +66,7 @@
                         <th>Category</th>
                         <th>Description</th>
                         <th>Text</th>
+                        <th>Photo</th>
                         <th>Options</th>
                     </tr>
                     <tr>
@@ -76,6 +94,7 @@
                                 placeholder="Search Text">
                         </th>
                         <th>#</th>
+                        <th>#</th>
 
                     </tr>
                 </thead>
@@ -97,6 +116,8 @@
                                     </td>
                                     <td class="truncate-cell">
                                         {{$model->text}}
+                                    </td>
+                                    <td><img src="{{ asset('storage/' . $model->photo) }}" alt="" width="100px">
                                     </td>
                                     <td>
                                         <div class="form-check form-switch">
@@ -142,7 +163,9 @@
                                     <td>
                                         <input type="text" class="form-control" wire:model="textEdit" placeholder="Name">
                                     </td>
-
+                                    <td>
+                                        <input type="file" wire:model="photoEdit" class="form-control">
+                                    </td>
                                     <td>
                                         <button class="btn btn-warning" wire:click="update({{$model->id}})">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -199,6 +222,7 @@
                                     <div class="card" style="width: 18rem;">
 
                                         <div class="card-body">
+                                        <img class="card-img-top" src="{{ asset('storage/' . $model->photo) }}" alt="Card image cap" >
                                             <h5 class="card-title">{{$model->title}}</h5>
                                             <p class="card-text truncate-cell">
                                                 {{$model->description}}
@@ -222,6 +246,7 @@
                     <div class="row">
                         <div class="col-8">
                             <p><i class="bi bi-eye"></i> {{$models->views}}</p>
+                            <img src="{{ asset('storage/' . $models->photo) }}" alt="" width="600px">
                             <h1>{{$models->title}}</h1>
                             <h3>{{$models->description}}</h3>
                             <p>{{$models->text}}</p>

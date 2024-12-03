@@ -11,16 +11,17 @@ use App\Models\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Request;
-
+use Livewire\WithFileUploads;
 class PostComponent extends Component
 {
     use WithPagination;
-
+    use WithFileUploads;
     // Form 
     public $title;
     public $description;
     public $text;
     public $category_id;
+    public $photo;
 
     // Edit form 
     public $editFormPost = false;
@@ -28,6 +29,7 @@ class PostComponent extends Component
     public $descriptionEdit;
     public $textEdit;
     public $category_idEdit;
+    public $photoEdit;
 
     // Search 
     public $searchTitle;
@@ -60,11 +62,21 @@ class PostComponent extends Component
 
 
     protected $rules = [
-        'title' => 'required|string|max:255',
+        'title' => 'required|string|max:255|min:3',
         'description' => 'required|string|max:500',
         'text' => 'required|string',
         'category_id' => 'required|exists:categories,id',
+        'photo' => 'required|file|mimes:png,jpg,jpeg',
     ];
+    public function updated($propertyname)
+    {
+        $this->validateOnly($propertyname);
+
+    }
+    public function mount()
+    {
+        $this->models = Post::orderBy('id', 'desc')->paginate(6);
+    }
 
     public function render()
     {
@@ -100,18 +112,29 @@ class PostComponent extends Component
 
     public function close()
     {
-        $this->reset(['title', 'description', 'text', 'category_id']);
+        $this->reset(['title', 'description', 'text', 'category_id','photo']);
         $this->activeForm = false;
     }
 
     public function save()
     {
-        Post::create([
-            'title' => $this->title,
-            'description' => $this->description,
-            'text' => $this->text,
-            'category_id' => $this->category_id,
-        ]);
+
+        $validateData = $this->validate();
+
+        if ($this->photo) {
+            
+            $extension = $this->photo->getClientOriginalExtension();
+            $filename = date('Y-m-d') . '_' . time() . '.' . $extension;
+        
+            
+            $path = $this->photo->storeAs('image_upload', $filename, 'public');
+        
+            
+            $validateData['photo'] = $path;
+        }
+        
+        // dd($validateData);
+        Post::create($validateData);
 
         $this->close();
     }
@@ -140,14 +163,26 @@ class PostComponent extends Component
 
     public function update(Post $model)
     {
+        if ($this->photoEdit) {
+            
+            $extension = $this->photoEdit->getClientOriginalExtension();
+            $filename = date('Y-m-d') . '_' . time() . '.' . $extension;
+        
+            
+            $path = $this->photoEdit->storeAs('image_upload', $filename, 'public');
+        
+            
+            $this->photoEdit = $path;
+        }
         $model->update([
             'title' => $this->titleEdit,
             'description' => $this->descriptionEdit,
             'text' => $this->textEdit,
             'category_id' => $this->category_idEdit,
+            'photo' => $this->photoEdit,
         ]);
 
-        $this->reset(['titleEdit', 'descriptionEdit', 'textEdit', 'category_idEdit', 'editFormPost']);
+        $this->reset(['titleEdit', 'descriptionEdit', 'textEdit', 'category_idEdit', 'editFormPost', 'photoEdit']);
     }
 
     public function truePost()
