@@ -308,7 +308,7 @@ function children($data, $models, $activeComment, $activeCommentID)
                             @foreach ($comments as $comment)
                                 @if ($comment->post_id == $models->id)
                                     <li>
-                                        {{$comment->id}}, {{$comment->comment}}
+                                        {{$comment->comment}}
                                         <button class="btn-reply" wire:click="CommentActive({{$models->id}}, {{$comment->id}})">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 class="bi bi-reply" viewBox="0 0 16 16">

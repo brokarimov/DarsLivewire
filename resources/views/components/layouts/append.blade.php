@@ -43,16 +43,22 @@
             gap: 6px;
             padding: 6px 10px;
             font-size: 10px;
-            
+
             border: none;
-            
+
             border-radius: 6px;
-            
-            
-            
+
+
+
         }
 
-        
+        .td-input {
+            width: 50%;
+            height: 50%;
+            padding: 0;
+            text-align: center;
+            box-sizing: border-box;
+        }
     </style>
     <!-- =======================================================
   * Template Name: Append
@@ -71,6 +77,8 @@
                 <ul>
                     <li><a href="/" wire:navigate>Category</a></li>
                     <li><a href="/post" wire:navigate>Post</a></li>
+                    <li><a href="/attendance" wire:navigate>Attendance</a></li>
+
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -167,6 +175,7 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
 
 </body>
 
