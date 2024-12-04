@@ -60,6 +60,7 @@
             box-sizing: border-box;
         }
     </style>
+    @livewireStyles
     <!-- =======================================================
   * Template Name: Append
   * Template URL: https://bootstrapmade.com/append-bootstrap-website-template/
@@ -160,6 +161,9 @@
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
+            
+    @livewireScripts
+    <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v1.x.x/dist/livewire-sortable.js"></script>
     <!-- Preloader -->
     <!-- <div id="preloader"></div> -->
 

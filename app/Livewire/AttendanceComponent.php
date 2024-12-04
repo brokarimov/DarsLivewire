@@ -27,7 +27,7 @@ class AttendanceComponent extends Component
     }
     public function mount()
     {
-        $this->students = Student::all();
+        $this->students = Student::orderBy('sort', 'asc')->get();
         $this->models = Attendance::all();
         $this->getDate();
     }
@@ -88,7 +88,7 @@ class AttendanceComponent extends Component
 
     public function saveCell($studentId, $date)
     {
-
+        
         Attendance::updateOrCreate(
             ['student_id' => $studentId, 'date' => $date],
             ['status' => $this->status]
@@ -113,6 +113,14 @@ class AttendanceComponent extends Component
     public function deleteStudent(Student $student)
     {
         $student->delete();
+        $this->mount();
+    }
+
+    public function updateStudentOrder($students)
+    {
+        foreach ($students as $student) {
+            Student::whereId($student['value'])->update(['sort' => $student['order']]);
+        }
         $this->mount();
     }
 
